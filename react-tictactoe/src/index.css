@@ -18,6 +18,9 @@ ul {
   margin-bottom: 10px;
 }
 
+.sortingButton {
+  padding-top: 20px;
+}
 .square {
   background: #fff;
   border: 1px solid #999;

@@ -23,14 +23,14 @@ class Board extends React.Component {
             for (let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 cells.push(this.renderSquare((rowIndex * rowCount) + columnIndex));
             }
-            rows.push(<div className="board-row">{cells}</div>);
+            rows.push(<div className="board-row" key={`A${rowIndex}`}>{cells}</div>);
         }
         return rows;
     }
 
     renderSquare(i) {
         return (
-            <Square
+            <Square key={`B${i}`}
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
             />
@@ -56,8 +56,19 @@ class Game extends React.Component {
                 row: null
             }],
             stepNumber: 0,
-            xIsNext: true
+            xIsNext: true,
+            isAscendingOrder: true
         }
+    }
+
+    getSortingLabel() {
+        return 'Change order to ' + (this.state.isAscendingOrder ? "DESC" : "ASC");
+    }
+
+    renderSortingButton() {
+        return (
+            <button onClick={() => this.changeOrder()}>{this.getSortingLabel()}</button>
+        );
     }
 
     handleClick(i) {
@@ -83,6 +94,12 @@ class Game extends React.Component {
         });
     }
 
+    changeOrder() {
+        this.setState({
+            isAscendingOrder: !this.state.isAscendingOrder
+        })
+    }
+
     jumpTo(step) {
         this.setState({
             stepNumber: step,
@@ -102,13 +119,15 @@ class Game extends React.Component {
                 'Go to game start';
 
             return (
-                <li key={move}>
+                <li key={`C${move}`}>
                     <button className={(isSelectedStep ? 'current' : null)} onClick={() => this.jumpTo(move)}>
                         {desc}
                     </button>
                 </li>
             )
         });
+
+        const displayInfo = this.state.isAscendingOrder ? moves : moves.slice().reverse();
 
         let status;
         if (winner) {
@@ -126,8 +145,9 @@ class Game extends React.Component {
                     />
                 </div>
                 <div className="game-info">
-                    <div>{status}</div>
-                    <ol>{moves}</ol>
+                    <div className="status">{status}</div>
+                    <div className="sortingButton">{this.renderSortingButton()}</div>
+                    <ol>{displayInfo}</ol>
                 </div>
             </div>
         );
