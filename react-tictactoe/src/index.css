@@ -21,6 +21,7 @@ ul {
 .sortingButton {
   padding-top: 20px;
 }
+
 .square {
   background: #fff;
   border: 1px solid #999;
@@ -38,6 +39,10 @@ ul {
 
 .square:focus {
   outline: none;
+}
+
+.square.highlighted {
+  background: yellow;
 }
 
 .kbd-navigation .square:focus {
